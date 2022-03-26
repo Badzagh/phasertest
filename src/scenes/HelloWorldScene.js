@@ -84,7 +84,7 @@ export default class HelloWorldScene extends Phaser.Scene
             {name: "Banana", y: window.innerHeight/2 - 1000}
         ]
 
-        this.secondReelRandomTimeArr = [3070, 3255,  3420, 3580, 3750, 3945, 4100, 4280, 4460, 4640, 4805, 5090]
+        this.secondReelRandomTimeArr = [3070, 3255,  3420, 3580, 3750, 3950, 4100, 4280, 4460, 4640, 4805, 5090]
         this.secondReelRandomTime = Math.floor(Math.random() * 12) + 0;
 
         this.secondReel.map((symbol, index) => {
@@ -102,7 +102,7 @@ export default class HelloWorldScene extends Phaser.Scene
             {name: "Banana", y: window.innerHeight/2 - 1000}
         ]
 
-        this.thirdReelRandomTimeArr = [5150, 5120, 5320, 5500, 5660, 5825, 6015, 6170, 6330, 6530, 6680, 6820]
+        this.thirdReelRandomTimeArr = [5150, 5120, 5320, 5500, 5660, 5825, 6010, 6170, 6330, 6530, 6680, 6820]
         this.thirdReelRandomTime = Math.floor(Math.random() * 12) + 0;
 
         this.thirdReel.map((symbol, index) => {
@@ -112,8 +112,6 @@ export default class HelloWorldScene extends Phaser.Scene
         
     }
     update(){
-        ///
-        console.log(spinBoolean)
         
         if(spinBoolean){  
 
@@ -139,8 +137,6 @@ export default class HelloWorldScene extends Phaser.Scene
                         if(whichReel === "third"){
                             thirdReelvalocityY = 0
                         }
-                        
-                        console.log("time reel", time)
                         
                         if(symbol.def.y >=  270 && symbol.def.y <= 400){
                             symbol.def.y = window.innerHeight/2 - 10
@@ -169,12 +165,10 @@ export default class HelloWorldScene extends Phaser.Scene
                     firstReelvalocityY = 20
                     secondReelvalocityY = 20
                     thirdReelvalocityY = 20
-                    console.log(firstReelvalocityY)
                     this.firstReelrandomTime = Math.floor(Math.random() * 12) + 0;
                     this.secondReelRandomTime = Math.floor(Math.random() * 12) + 0;
                     this.thirdReelRandomTime = Math.floor(Math.random() * 12) + 0;
                     if(firstReelvalue === secondReelvalue && firstReelvalue === thirdReelvalue){
-                        console.log("win")
                         this.Win.setAlpha(1);
                     }
                 }, 6820)
