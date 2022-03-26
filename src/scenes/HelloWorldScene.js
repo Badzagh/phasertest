@@ -1,7 +1,5 @@
 import Phaser, { AUTO } from 'phaser'
 
-//import Background from "./phaserJs-test/"
-
 let spinBoolean = false
 let firstReelvalocityY = 20
 let secondReelvalocityY = 20
@@ -19,10 +17,6 @@ export default class HelloWorldScene extends Phaser.Scene
 
 	preload()
     {
-        //this.load.setBaseURL('http://labs.phaser.io')
-
-        //this.load.crossOrigin = "Anonymous"
-
         this.load.image('Background', 'assets/Background.png')
         this.load.image('Spin', 'assets/Spin.png')
         this.load.image('Banana', 'assets/Banana.png')
@@ -34,9 +28,6 @@ export default class HelloWorldScene extends Phaser.Scene
     create()
     {
 
-        //this.state = { spinBoolena: false}
-        //this.spinBoolean = false
-        //this.spinBoolean = { spin : false}
         this.Win = this.add.image(window.innerWidth/2,  window.innerHeight/2 - 170, 'Win')
         this.Win.depth = 3
         this.Win.setScale(0.50)
@@ -46,20 +37,10 @@ export default class HelloWorldScene extends Phaser.Scene
         this.Spin.depth = 3
         this.Spin.setScale(0.50)
         this.Spin.on('pointerdown', function (pointer) {
-
-            //this.spinBoolean = true
-            //this.setState({ spinBoolena: true });
-            console.log("click")
-            //this.spinBoolean = { spin : true}
-            //console.log(this.spinBoolean.spin)
-            //console.log(this.spinBoolean)
             spinBoolean = true
-            console.log(spinBoolean)
-            
         });
     
         //
-
         this.BackgroundCoverUp = this.add.rectangle(window.innerWidth/2, 50, window.innerWidth, 350, 0x000000);
         this.BackgroundCoverUp.depth = 1
 
@@ -67,12 +48,9 @@ export default class HelloWorldScene extends Phaser.Scene
         this.BackgroundCoverDown.depth = 1
 
         this.BackgroundWhite = this.add.rectangle(window.innerWidth/2 + 20, 280, 610, 360, 0xFFFFFF);
-        
 
-        this.Background = this.add.image(window.innerWidth/2, window.innerHeight/2, 'Background')
         //
-
-        
+        this.Background = this.add.image(window.innerWidth/2, window.innerHeight/2, 'Background')
         this.Background.setScale(0.50)
         this.Background.width = window.innerWidth
         this.Background.height = AUTO
@@ -89,6 +67,7 @@ export default class HelloWorldScene extends Phaser.Scene
         ]
 
         this.firstReelrandomTimeArr = [1000, 1210,  1360, 1520, 1670, 1860, 2030, 2230, 2400, 2560, 2715, 2915]
+        this.firstReelrandomTime = Math.floor(Math.random() * 12) + 0;
 
         this.firstReel.map((symbol, index) => {
             symbol.def = this.add.image(window.innerWidth/3.3, symbol.y, symbol.name)
@@ -106,8 +85,7 @@ export default class HelloWorldScene extends Phaser.Scene
         ]
 
         this.secondReelRandomTimeArr = [3070, 3255,  3420, 3580, 3750, 3945, 4100, 4280, 4460, 4640, 4805, 5090]
-        
-        this.secondReelSpinTime = 3000
+        this.secondReelRandomTime = Math.floor(Math.random() * 12) + 0;
 
         this.secondReel.map((symbol, index) => {
             symbol.def = this.add.image(window.innerWidth/2, symbol.y, symbol.name)
@@ -125,18 +103,12 @@ export default class HelloWorldScene extends Phaser.Scene
         ]
 
         this.thirdReelRandomTimeArr = [5150, 5120, 5320, 5500, 5660, 5825, 6015, 6170, 6330, 6530, 6680, 6820]
-        
-        
+        this.thirdReelRandomTime = Math.floor(Math.random() * 12) + 0;
 
         this.thirdReel.map((symbol, index) => {
             symbol.def = this.add.image(window.innerWidth/1.43, symbol.y, symbol.name)
             symbol.def.setScale(0.50)
         })
-        
-        this.firstReelrandomTime = Math.floor(Math.random() * 12) + 0;
-        this.secondReelRandomTime = Math.floor(Math.random() * 12) + 0;
-        this.thirdReelRandomTime = Math.floor(Math.random() * 12) + 0;
-
         
     }
     update(){
@@ -186,77 +158,11 @@ export default class HelloWorldScene extends Phaser.Scene
                     }, time)
                 })
             }
+
             spinEachReel(this.firstReel, firstReelvalocityY, this.firstReelrandomTimeArr[this.firstReelrandomTime], "first")
             spinEachReel(this.secondReel, secondReelvalocityY, this.secondReelRandomTimeArr[this.secondReelRandomTime], "second")
             spinEachReel(this.thirdReel, thirdReelvalocityY, this.thirdReelRandomTimeArr[this.thirdReelRandomTime], "third")
-            /*
-            this.firstReel.map((symbol, index) => {
-
-                symbol.def.y += firstReelvalocityY
-                
-                if(symbol.def.y >=  650){
-                    symbol.def.y = window.innerHeight/2 - 930
-                }
-                
-                setTimeout(() => {
-
-                    firstReelvalocityY = 0
-                    
-                    console.log("time first reel", this.firstReelrandomTimeArr[this.firstReelrandomTime])
-                    
-                    if(symbol.def.y >=  270 && symbol.def.y <= 400){
-                        symbol.def.y = window.innerHeight/2 - 10
-                        firstReelvalue = symbol.name
-                    }
-
-                }, this.firstReelrandomTimeArr[this.firstReelrandomTime])
-            })
-
-
-            //second reel
-            this.secondReel.map((symbol, index) => {
-                
-                symbol.def.y += secondReelvalocityY
-                
-                if(symbol.def.y >=  650){
-                    symbol.def.y = window.innerHeight/2 - 930
-                }
-                
-                setTimeout(() => {
-
-                    secondReelvalocityY = 0
-                    console.log("time second reel", this.secondReelRandomTimeArr[this.secondReelRandomTime])
-                    
-                    if(symbol.def.y >=  270 && symbol.def.y <= 400){
-                        symbol.def.y = window.innerHeight/2 - 10
-                        secondReelvalue = symbol.name
-                    }
-
-                }, this.secondReelRandomTimeArr[this.secondReelRandomTime])
-            })
-
-            //third reel
-            this.thirdReel.map((symbol, index) => {
-                
-                symbol.def.y += thirdReelvalocityY
-                
-                if(symbol.def.y >=  650){
-                    symbol.def.y = window.innerHeight/2 - 930
-                }
-                
-                setTimeout(() => {
-
-                    thirdReelvalocityY = 0
-
-                    console.log("time third reel", this.thirdReelRandomTimeArr[this.thirdReelRandomTime])
-                    
-                    if(symbol.def.y >=  270 && symbol.def.y <= 400){
-                        symbol.def.y = window.innerHeight/2 - 10
-                        thirdReelvalue = symbol.name
-                    }
-
-                }, this.thirdReelRandomTimeArr[this.thirdReelRandomTime])
-            })*/
+            
             if(spinBoolean){
                 setTimeout(() => {
                     spinBoolean = false
