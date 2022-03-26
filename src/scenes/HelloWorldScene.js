@@ -2,6 +2,14 @@ import Phaser, { AUTO } from 'phaser'
 
 //import Background from "./phaserJs-test/"
 
+let spinBoolean = false
+let firstReelvalocityY = 20
+let secondReelvalocityY = 20
+let thirdReelvalocityY = 20
+let firstReelvalue = ""
+let secondReelvalue = ""
+let thirdReelvalue = ""
+
 export default class HelloWorldScene extends Phaser.Scene
 {
 	constructor()
@@ -20,222 +28,254 @@ export default class HelloWorldScene extends Phaser.Scene
         this.load.image('Banana', 'assets/Banana.png')
         this.load.image('Blackberry', 'assets/Blackberry.png')
         this.load.image('Cherry', 'assets/Cherry.png')
-        this.load.image('logo', 'assets/sprites/phaser3-logo.png')
-        this.load.image('red', 'assets/particles/red.png')
+        this.load.image('Win', 'assets/Win.png')
     }
 
     create()
     {
 
-        this.Spin = this.add.image(window.innerWidth/2, window.innerHeight/2 + 500, 'Spin')
-        //
-        //this.Banana = this.physics.add.image(window.innerWidth/3.3, window.innerHeight/2, 'Banana')
-        /*const BananascaleX = (window.innerWidth / 1600);
-        const BananascaleY = (window.innerHeight / 1600);
-        const Bananascale = Math.max(BananascaleX, BananascaleY);
-        Banana.setScale(Bananascale);*/
-        //this.Banana.setScale(0.75)
-        //this.Banana.setVelocity(0, 200)
+        //this.state = { spinBoolena: false}
+        //this.spinBoolean = false
+        //this.spinBoolean = { spin : false}
+        this.Win = this.add.image(window.innerWidth/2,  window.innerHeight/2 - 170, 'Win')
+        this.Win.depth = 3
+        this.Win.setScale(0.50)
+        this.Win.setAlpha(0);
 
+        this.Spin = this.add.image(window.innerWidth/2,  window.innerHeight/2 + 200, 'Spin').setInteractive();
+        this.Spin.depth = 3
+        this.Spin.setScale(0.50)
+        this.Spin.on('pointerdown', function (pointer) {
+
+            //this.spinBoolean = true
+            //this.setState({ spinBoolena: true });
+            console.log("click")
+            //this.spinBoolean = { spin : true}
+            //console.log(this.spinBoolean.spin)
+            //console.log(this.spinBoolean)
+            spinBoolean = true
+            console.log(spinBoolean)
+            
+        });
+    
+        //
+
+        this.BackgroundCoverUp = this.add.rectangle(window.innerWidth/2, 50, window.innerWidth, 350, 0x000000);
+        this.BackgroundCoverUp.depth = 1
+
+        this.BackgroundCoverDown = this.add.rectangle(window.innerWidth/2, window.innerHeight - 50, window.innerWidth, 400, 0x000000);
+        this.BackgroundCoverDown.depth = 1
+
+        this.BackgroundWhite = this.add.rectangle(window.innerWidth/2 + 20, 280, 610, 360, 0xFFFFFF);
         
 
-        //this.Blackberry = this.add.image(window.innerWidth/2, window.innerHeight/2, 'Blackberry')
-        //this.Cherry = this.add.image(window.innerWidth/1.4, window.innerHeight/2, 'Cherry')
-
         this.Background = this.add.image(window.innerWidth/2, window.innerHeight/2, 'Background')
+        //
 
-        /*const BackgroundscaleX = (window.innerWidth / Background.width);
-        const BackgroundscaleY = (window.innerHeight / Background.height);
-        const Backgroundscale = Math.max(BackgroundscaleX, BackgroundscaleY);
-        Background.setScale(Backgroundscale);*/
+        
         this.Background.setScale(0.50)
         this.Background.width = window.innerWidth
         this.Background.height = AUTO
+        this.Background.depth = 1
 
         ///first  reel
-        this.firstReel = [{name:"Banana", y: window.innerHeight/2, valocityY: 20},{name: "Banana", y: window.innerHeight/2 - 200, valocityY: 20},{name: "Cherry", y: window.innerHeight/2 - 400 , valocityY: 20},{name: "Blackberry", y: window.innerHeight/2 - 600, valocityY: 20},{name: "Cherry", y: window.innerHeight/2 - 800, valocityY: 20},{name: "Banana", y: window.innerHeight/2 - 1000, valocityY: 20}]
+        this.firstReel = [
+            {name:"Banana", y: window.innerHeight/2},
+            {name: "Banana", y: window.innerHeight/2 - 200},
+            {name: "Cherry", y: window.innerHeight/2 - 400},
+            {name: "Blackberry", y: window.innerHeight/2 - 600},
+            {name: "Cherry", y: window.innerHeight/2 - 800},
+            {name: "Banana", y: window.innerHeight/2 - 1000}
+        ]
 
-        this.randomTimeArr = [1000, 1210,  1360, 1520, 1670, 1860, 2035, 2230, 2400, 2560, 2715, 2915]
-        this.randomTime = Math.floor(Math.random() * 12) + 0;
+        this.firstReelrandomTimeArr = [1000, 1210,  1360, 1520, 1670, 1860, 2030, 2230, 2400, 2560, 2715, 2915]
 
         this.firstReel.map((symbol, index) => {
             symbol.def = this.add.image(window.innerWidth/3.3, symbol.y, symbol.name)
             symbol.def.setScale(0.50)
-            //symbol.def.velocityY = 200
-            //symbol.def.setBounce(2, 1)
-            //symbol.def.setCollideWorldBounds(true)
-            console.log(symbol.def.y)
-            /*if(Math.floor(symbol.def.y) >=  1200){
-                symbol.def.y = 100
-                console.log("uhu")
-            }*/
         })
 
         //second reel
-        this.secondReel = [{name:"Blackberry", y: window.innerHeight/2, valocityY: 20},{name: "Cherry", y: window.innerHeight/2 - 200, valocityY: 20},{name: "Cherry", y: window.innerHeight/2 - 400 , valocityY: 20},{name: "Banana", y: window.innerHeight/2 - 600, valocityY: 20},{name: "Blackberry", y: window.innerHeight/2 - 800, valocityY: 20},{name: "Banana", y: window.innerHeight/2 - 1000, valocityY: 20}]
+        this.secondReel = [
+            {name:"Blackberry", y: window.innerHeight/2},
+            {name: "Cherry", y: window.innerHeight/2 - 200},
+            {name: "Cherry", y: window.innerHeight/2 - 400},
+            {name: "Banana", y: window.innerHeight/2 - 600},
+            {name: "Blackberry", y: window.innerHeight/2 - 800},
+            {name: "Banana", y: window.innerHeight/2 - 1000}
+        ]
 
-        this.secondReelRandomTimeArr = [3070, 3255,  3420, 3580, 3750, 3950, 4100, 4280, 4460, 4650, 4805, 5980]
-        this.secondReelRandomTime = Math.floor(Math.random() * 12) + 0;
+        this.secondReelRandomTimeArr = [3070, 3255,  3420, 3580, 3750, 3945, 4100, 4280, 4460, 4640, 4805, 5090]
+        
         this.secondReelSpinTime = 3000
 
         this.secondReel.map((symbol, index) => {
             symbol.def = this.add.image(window.innerWidth/2, symbol.y, symbol.name)
             symbol.def.setScale(0.50)
-            //symbol.def.velocityY = 200
-            //symbol.def.setBounce(2, 1)
-            //symbol.def.setCollideWorldBounds(true)
-            console.log(symbol.def.y)
-            /*if(Math.floor(symbol.def.y) >=  1200){
-                symbol.def.y = 100
-                console.log("uhu")
-            }*/
         })
 
         //third reel
-        this.thirdReel = [{name:"Cherry", y: window.innerHeight/2, valocityY: 20},{name: "Blackberry", y: window.innerHeight/2 - 200, valocityY: 20},{name: "Banana", y: window.innerHeight/2 - 400 , valocityY: 20},{name: "Blackberry", y: window.innerHeight/2 - 600, valocityY: 20},{name: "Cherry", y: window.innerHeight/2 - 800, valocityY: 20},{name: "Banana", y: window.innerHeight/2 - 1000, valocityY: 20}]
+        this.thirdReel = [
+            {name:"Cherry", y: window.innerHeight/2},
+            {name: "Blackberry", y: window.innerHeight/2 - 200},
+            {name: "Banana", y: window.innerHeight/2 - 400},
+            {name: "Blackberry", y: window.innerHeight/2 - 600},
+            {name: "Cherry", y: window.innerHeight/2 - 800},
+            {name: "Banana", y: window.innerHeight/2 - 1000}
+        ]
 
-        this.thirdReelRandomTimeArr = [5150, 5120, 5320, 5500, 5660, 5825, 6020, 6170, 6330, 6530, 6680, 6820]
-        this.thirdReelRandomTime = Math.floor(Math.random() * 12) + 0;
+        this.thirdReelRandomTimeArr = [5150, 5120, 5320, 5500, 5660, 5825, 6015, 6170, 6330, 6530, 6680, 6820]
+        
         
 
         this.thirdReel.map((symbol, index) => {
             symbol.def = this.add.image(window.innerWidth/1.43, symbol.y, symbol.name)
             symbol.def.setScale(0.50)
-            //symbol.def.velocityY = 200
-            //symbol.def.setBounce(2, 1)
-            //symbol.def.setCollideWorldBounds(true)
-            console.log(symbol.def.y)
-            /*if(Math.floor(symbol.def.y) >=  1200){
-                symbol.def.y = 100
-                console.log("uhu")
-            }*/
         })
         
-        /*
-        for(let i = 0; i < 6; i++){
-            firstReel[i] = 
-        }*/
-        ///
+        this.firstReelrandomTime = Math.floor(Math.random() * 12) + 0;
+        this.secondReelRandomTime = Math.floor(Math.random() * 12) + 0;
+        this.thirdReelRandomTime = Math.floor(Math.random() * 12) + 0;
 
-        //
-        /*
-        const particles = this.add.particles('red')
-
-        const emitter = particles.createEmitter({
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
-        })
-
-        const logo = this.physics.add.image(400, 100, 'logo')
-
-        logo.setVelocity(100, 200)
-        logo.setBounce(1, 1)
-        logo.setCollideWorldBounds(true)
-
-        emitter.startFollow(logo)*/
+        
     }
     update(){
         ///
+        console.log(spinBoolean)
         
-        this.firstReel.map((symbol, index) => {
-            
-            //symbol.def.velocityY = 200
-            
-            symbol.def.y += symbol.valocityY
+        if(spinBoolean){  
 
-            //symbol.def.setBounce(2, 1)
-            //symbol.def.setCollideWorldBounds(true)
-            console.log(index,symbol.def.y)
-            
-            if(symbol.def.y >=  650){
-                console.log("------------------------------",window.innerHeight/2 - 2800)
-                console.log("------------------------------",window.innerHeight/2 - 500)
-                console.log("-------------------------------now", symbol.def.y)
-                console.log("------------------------------uhu")
-                symbol.def.y = window.innerHeight/2 - 930
+            this.Spin.setAlpha(0.5);
+
+            function spinEachReel (reel, reelValocityY, time, whichReel){
+                reel.map((symbol, index) => {
+        
+                    symbol.def.y += reelValocityY
+                    
+                    if(symbol.def.y >=  650){
+                        symbol.def.y = window.innerHeight/2 - 930
+                    }
+                    
+                    setTimeout(() => {
+        
+                        if(whichReel === "first"){
+                            firstReelvalocityY = 0
+                        }
+                        if(whichReel === "second"){
+                            secondReelvalocityY = 0
+                        }
+                        if(whichReel === "third"){
+                            thirdReelvalocityY = 0
+                        }
+                        
+                        console.log("time reel", time)
+                        
+                        if(symbol.def.y >=  270 && symbol.def.y <= 400){
+                            symbol.def.y = window.innerHeight/2 - 10
+                            if(whichReel === "first"){
+                                firstReelvalue = symbol.name
+                            }
+                            if(whichReel === "second"){
+                                secondReelvalue = symbol.name
+                            }
+                            if(whichReel === "third"){
+                                thirdReelvalue = symbol.name
+                            }
+                        }
+        
+                    }, time)
+                })
             }
-            
-            setTimeout(() => {
-                symbol.valocityY = 0
-                console.log("stop")
-                console.log("time first reel", this.randomTimeArr[this.randomTime])
-                this.secondReelSpinTime = this.secondReelRandomTimeArr[this.secondReelRandomTime]
-                console.log("time second reel", this.secondReelRandomTimeArr[this.secondReelRandomTime])
-                console.log("time third reel", this.thirdReelRandomTimeArr[this.thirdReelRandomTime])
-                if(symbol.def.y >=  270 && symbol.def.y <= 400){
-                    symbol.def.y = window.innerHeight/2 - 10
-                    console.log("------------------symbol--------", symbol.name)
-                }
+            spinEachReel(this.firstReel, firstReelvalocityY, this.firstReelrandomTimeArr[this.firstReelrandomTime], "first")
+            spinEachReel(this.secondReel, secondReelvalocityY, this.secondReelRandomTimeArr[this.secondReelRandomTime], "second")
+            spinEachReel(this.thirdReel, thirdReelvalocityY, this.thirdReelRandomTimeArr[this.thirdReelRandomTime], "third")
+            /*
+            this.firstReel.map((symbol, index) => {
 
-            }, this.randomTimeArr[this.randomTime])
-        })
-
-
-        //second reel
-        this.secondReel.map((symbol, index) => {
-            
-            //symbol.def.velocityY = 200
-            
-            symbol.def.y += symbol.valocityY
-
-            //symbol.def.setBounce(2, 1)
-            //symbol.def.setCollideWorldBounds(true)
-            console.log(index,symbol.def.y)
-            
-            if(symbol.def.y >=  650){
-                console.log("------------------------------",window.innerHeight/2 - 2800)
-                console.log("------------------------------",window.innerHeight/2 - 500)
-                console.log("-------------------------------now", symbol.def.y)
-                console.log("------------------------------uhu")
-                symbol.def.y = window.innerHeight/2 - 930
-            }
-            
-            setTimeout(() => {
-                symbol.valocityY = 0
-                console.log("stop")
-                console.log("time", this.randomTimeArr[this.randomTime])
+                symbol.def.y += firstReelvalocityY
                 
-                if(symbol.def.y >=  270 && symbol.def.y <= 400){
-                    symbol.def.y = window.innerHeight/2 - 10
-                    console.log("------------------symbol--------", symbol.name)
+                if(symbol.def.y >=  650){
+                    symbol.def.y = window.innerHeight/2 - 930
                 }
-
-            }, this.secondReelRandomTimeArr[this.secondReelRandomTime])
-        })
-
-        //third reel
-        this.thirdReel.map((symbol, index) => {
-            
-            //symbol.def.velocityY = 200
-            
-            symbol.def.y += symbol.valocityY
-
-            //symbol.def.setBounce(2, 1)
-            //symbol.def.setCollideWorldBounds(true)
-            console.log(index,symbol.def.y)
-            
-            if(symbol.def.y >=  650){
-                console.log("------------------------------",window.innerHeight/2 - 2800)
-                console.log("------------------------------",window.innerHeight/2 - 500)
-                console.log("-------------------------------now", symbol.def.y)
-                console.log("------------------------------uhu")
-                symbol.def.y = window.innerHeight/2 - 930
-            }
-            
-            setTimeout(() => {
-                symbol.valocityY = 0
-                console.log("stop")
-                console.log("time", this.randomTimeArr[this.randomTime])
                 
-                if(symbol.def.y >=  270 && symbol.def.y <= 400){
-                    symbol.def.y = window.innerHeight/2 - 10
-                    console.log("------------------symbol--------", symbol.name)
-                }
+                setTimeout(() => {
 
-            }, this.thirdReelRandomTimeArr[this.thirdReelRandomTime])
-        })
-        //5150, 5120, 5320, 5500, 5660, 5825, 6020, 6170, 6330, 6530, 6680, 6820
-        //this.time.events.add(Phaser.Timer.SECOND * 4, valocituY = 10);
+                    firstReelvalocityY = 0
+                    
+                    console.log("time first reel", this.firstReelrandomTimeArr[this.firstReelrandomTime])
+                    
+                    if(symbol.def.y >=  270 && symbol.def.y <= 400){
+                        symbol.def.y = window.innerHeight/2 - 10
+                        firstReelvalue = symbol.name
+                    }
+
+                }, this.firstReelrandomTimeArr[this.firstReelrandomTime])
+            })
+
+
+            //second reel
+            this.secondReel.map((symbol, index) => {
+                
+                symbol.def.y += secondReelvalocityY
+                
+                if(symbol.def.y >=  650){
+                    symbol.def.y = window.innerHeight/2 - 930
+                }
+                
+                setTimeout(() => {
+
+                    secondReelvalocityY = 0
+                    console.log("time second reel", this.secondReelRandomTimeArr[this.secondReelRandomTime])
+                    
+                    if(symbol.def.y >=  270 && symbol.def.y <= 400){
+                        symbol.def.y = window.innerHeight/2 - 10
+                        secondReelvalue = symbol.name
+                    }
+
+                }, this.secondReelRandomTimeArr[this.secondReelRandomTime])
+            })
+
+            //third reel
+            this.thirdReel.map((symbol, index) => {
+                
+                symbol.def.y += thirdReelvalocityY
+                
+                if(symbol.def.y >=  650){
+                    symbol.def.y = window.innerHeight/2 - 930
+                }
+                
+                setTimeout(() => {
+
+                    thirdReelvalocityY = 0
+
+                    console.log("time third reel", this.thirdReelRandomTimeArr[this.thirdReelRandomTime])
+                    
+                    if(symbol.def.y >=  270 && symbol.def.y <= 400){
+                        symbol.def.y = window.innerHeight/2 - 10
+                        thirdReelvalue = symbol.name
+                    }
+
+                }, this.thirdReelRandomTimeArr[this.thirdReelRandomTime])
+            })*/
+            if(spinBoolean){
+                setTimeout(() => {
+                    spinBoolean = false
+                    firstReelvalocityY = 20
+                    secondReelvalocityY = 20
+                    thirdReelvalocityY = 20
+                    console.log(firstReelvalocityY)
+                    this.firstReelrandomTime = Math.floor(Math.random() * 12) + 0;
+                    this.secondReelRandomTime = Math.floor(Math.random() * 12) + 0;
+                    this.thirdReelRandomTime = Math.floor(Math.random() * 12) + 0;
+                    if(firstReelvalue === secondReelvalue && firstReelvalue === thirdReelvalue){
+                        console.log("win")
+                        this.Win.setAlpha(1);
+                    }
+                }, 6820)
+            }
+            setTimeout(() => {
+                this.Spin.setAlpha(1);
+            }, 14000)
+        } 
     }
 }
